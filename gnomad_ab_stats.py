@@ -1,5 +1,5 @@
 from hail import *
-from resources import *
+from resources import get_gnomad_data
 import re
 
 hc = HailContext(log='/test.log')
