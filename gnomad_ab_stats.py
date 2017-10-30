@@ -1,12 +1,9 @@
-from hail import *
+from hail import HailContext, Interval
 from resources import get_gnomad_data
 import re
 
-hc = HailContext(log='/test.log')
-
-def get_ab_stats(outprefix):
+def get_ab_stats(vds, outprefix):
     for interval, filter_males in [("1-22",False),("X",True)]:
-        vds = get_gnomad_data(hc, "genomes", release_samples=True)
         vds = vds.filter_intervals(Interval.parse(interval))
         if filter_males:
             vds = vds.filter_samples_expr('sa.meta.sex == "female"')
@@ -52,4 +49,6 @@ def get_ab_stats(outprefix):
 
             pvds.export_vcf("{}.chr{}.{}.vcf.bgz".format(outprefix, interval, pname))
 
-get_ab_stats("gs://gnomad-lfran/tmp/gnomad.abstats")
+hc = HailContext(log='/abstats.log')
+vds = get_gnomad_data(hc, "genomes", release_samples=True)
+get_ab_stats(vds, "gs://gnomad-lfran/tmp/gnomad.abstats")
