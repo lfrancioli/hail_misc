@@ -1,5 +1,9 @@
 .DS_Store
-.idea
+*/.idea
+*/.Rhistory
+*/.Rproj.user
+
+*.bed
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
